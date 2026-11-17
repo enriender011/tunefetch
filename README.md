@@ -108,12 +108,6 @@ Converting to FLAC does not add quality that the source never had. A track taken
 
 Bandcamp links currently fail: Bandcamp blocks yt-dlp with an anti-bot check (checked in November 2026 with three albums), and tunefetch cannot work around it. Albums and playlists have been tested with YouTube and SoundCloud.
 
-## Responsible use
-
-Download only what you have the right to download: your own music, free-licensed or public-domain works, and
-content that the service allows you to save. You are responsible for following the terms of each service and your
-local law.
-
 ## License
 
 MIT
