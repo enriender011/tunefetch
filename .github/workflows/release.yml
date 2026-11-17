@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Check that the tag matches the package version
+        shell: bash
+        run: |
+          version="$(uv run python -c 'import tunefetch; print(tunefetch.__version__)')"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match version $version" >&2
+            exit 1
+          fi
+
+      - name: Run the tests
+        run: uv run pytest -q
+
+      - name: Build tunefetch.exe
+        run: >
+          uv run --with pyinstaller pyinstaller --onefile --name tunefetch
+          --collect-submodules yt_dlp packaging/entry.py
+
+      - name: Smoke test the executable
+        shell: bash
+        run: |
+          ./dist/tunefetch.exe --version
+          ./dist/tunefetch.exe --lang en --help > /dev/null
+          ./dist/tunefetch.exe --lang es sources > /dev/null
+
+      - name: Write the checksum
+        shell: bash
+        run: |
+          cd dist
+          sha256sum tunefetch.exe > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      - name: Create the draft release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          notes="docs/releases/${GITHUB_REF_NAME}.md"
+          if [ -f "$notes" ]; then
+            notes_option=(--notes-file "$notes")
+          else
+            notes_option=(--generate-notes)
+          fi
+          gh release create "$GITHUB_REF_NAME" dist/tunefetch.exe dist/SHA256SUMS.txt \
+            --title "tunefetch $GITHUB_REF_NAME" --draft "${notes_option[@]}"
