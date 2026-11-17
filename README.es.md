@@ -112,35 +112,6 @@ AAC) aunque la guardes como FLAC. El audio sin pérdida real solo viene de fuent
 
 Los enlaces de Bandcamp fallan ahora mismo: Bandcamp bloquea a yt-dlp con una comprobación anti-bot (comprobado en noviembre de 2026 con tres álbumes) y tunefetch no puede evitarlo. Los álbumes y listas se han probado con YouTube y SoundCloud.
 
-## Uso responsable
-
-Descarga solo lo que tengas derecho a descargar: tu propia música, obras con licencia libre o de dominio público, y
-contenido que el servicio te permita guardar. Eres responsable de cumplir las condiciones de cada servicio y la ley de
-tu país.
-
-## Desarrollo
-
-```powershell
-uv sync
-uv run pytest
-uv run tunefetch --help
-```
-
-Todos los textos que ve el usuario están en `src/tunefetch/i18n.py` en los dos idiomas, y un test falla si a un idioma
-le falta algún mensaje. Mantén `README.md` y `README.es.md` sincronizados cuando cambies uno de los dos.
-
-## Publicar un release
-
-1. Cambia `__version__` en `src/tunefetch/__init__.py` y `version` en `pyproject.toml` (por ejemplo a `1.0.1`).
-2. Escribe las notas de la release en `docs/releases/v1.0.1.md`, en inglés y español como los demás archivos de ahí.
-3. Haz commit y push, y después crea la etiqueta y súbela: `git tag v1.0.1` y `git push origin v1.0.1`.
-4. Mira el workflow de Release en la pestaña Actions del repositorio. Pasa los tests, compila `tunefetch.exe` para
-   Windows, comprueba que arranca, escribe `SHA256SUMS.txt` y crea una release en **borrador** con las notas.
-5. En GitHub, abre Releases, edita el borrador, léelo y pulsa Publish release. Hasta entonces no es público.
-
-Si el workflow falla, arregla el problema, borra la etiqueta (`git tag -d v1.0.1`, `git push origin :refs/tags/v1.0.1`)
-y créala de nuevo.
-
 ## Licencia
 
 MIT
