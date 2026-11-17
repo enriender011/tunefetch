@@ -114,29 +114,6 @@ Download only what you have the right to download: your own music, free-licensed
 content that the service allows you to save. You are responsible for following the terms of each service and your
 local law.
 
-## Development
-
-```powershell
-uv sync
-uv run pytest
-uv run tunefetch --help
-```
-
-Every user-facing text lives in `src/tunefetch/i18n.py` in both languages, and a test fails if one language is
-missing a message. Keep `README.md` and `README.es.md` in sync when you change either.
-
-## Publishing a release
-
-1. Change `__version__` in `src/tunefetch/__init__.py` and `version` in `pyproject.toml` (for example to `1.0.1`).
-2. Write the release notes in `docs/releases/v1.0.1.md`, in English and Spanish like the other files there.
-3. Commit and push, then create and push the tag: `git tag v1.0.1` and `git push origin v1.0.1`.
-4. Watch the Release workflow in the Actions tab of the repository. It runs the tests, builds `tunefetch.exe` for
-   Windows, checks that it starts, writes `SHA256SUMS.txt` and creates a **draft** release with the notes.
-5. On GitHub, open Releases, edit the draft, read it, and press Publish release. Nothing is public until then.
-
-If the workflow fails, fix the problem, delete the tag (`git tag -d v1.0.1`, `git push origin :refs/tags/v1.0.1`) and
-create it again.
-
 ## License
 
 MIT
